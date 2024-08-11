@@ -1,14 +1,13 @@
-import { createBrowserRouter } from "react-router-dom";
-import App from "../App";
-import LoginPage from "../pages/LoginPage";
+import { RouteObject } from 'react-router-dom';
 
-export const router = createBrowserRouter([
+/* Pages */
+import Login from '../pages/LoginPage';
+
+const routes: RouteObject[] = [
   {
-    path: "/",
-    element: <App />,
-    children: [
-      { path: "/", element: <LoginPage /> },
-      
-    ],
+    path: '/',
+    element: <Login />,
   },
-]);
+];
+
+export default routes;

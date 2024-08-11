@@ -1,20 +1,16 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import { Outlet } from "react-router";
-import { ToastContainer } from 'react-toastify'
-import { UserProvider } from './context/UseAuth'
+// src/App.tsx
+import React from 'react';
+import { useRoutes, BrowserRouter as Router } from 'react-router-dom';
+import routes from './routes/routes';
 
-function App() {
+const App: React.FC = () => {
+  const routing = useRoutes(routes);
+
   return (
-    <>
-    <UserProvider>
-      <Outlet />
-      <ToastContainer />
-    </UserProvider>
-    </>
-  )
-}
+    <Router>
+      {routing}
+    </Router>
+  );
+};
 
-export default App
+export default App;
