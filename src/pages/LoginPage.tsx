@@ -1,25 +1,41 @@
-// LoginPage.tsx (or wherever the Link is located)
 import React, { useState, useContext } from 'react';
-import { AuthContext } from '../context/AuthContext';
-import { Link, useNavigate } from 'react-router-dom';
-import { login } from '../api/auth';
+import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../context/AuthContext'; // Assuming you have an AuthContext for managing authentication state
 import './LoginPage.css'
 
-
 const LoginPage: React.FC = () => {
-  const { login: setToken } = useContext(AuthContext);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+  const { login: setToken } = useContext(AuthContext); // Assuming AuthContext provides a login function
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+
     try {
-      const { token } = await login(username, password);
-      setToken(token);
-      navigate('/home');
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username: username,
+          password: password,
+        }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setToken(data.token); // Assuming the token is returned on successful login
+        navigate('/home'); // Redirect to the home page or another protected route
+      } else {
+        const errorData = await response.json();
+        console.error('Login failed', errorData);
+        alert(`Login failed: ${errorData.message}`);
+      }
     } catch (err) {
       console.error('Login failed', err);
+      alert('An error occurred. Please try again.');
     }
   };
 
@@ -40,7 +56,7 @@ const LoginPage: React.FC = () => {
           onChange={(e) => setPassword(e.target.value)}
         />
         <div>
-          <Link to="/register">회원가입</Link> {/* Path matches 'register' in routes */}
+          <a href="/register">회원가입</a>
           <button type="submit">로그인</button>
         </div>
       </form>

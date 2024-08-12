@@ -1,26 +1,57 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import './RegisterPage.css'
 
-const Register: React.FC = () => {
-    const [name, setName] = useState('');
-    const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
+const RegisterPage: React.FC = () => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const navigate = useNavigate();
 
-    const handleRegister = (e: React.FormEvent) => {
-        e.preventDefault();
-        // Implement the registration logic
-    };
+  const handleRegister = async (e: React.FormEvent) => {
+    e.preventDefault();
 
-    return (
-      <div className="register-container">
+    if (password !== confirmPassword) {
+      alert('Passwords do not match!');
+      return;
+    }
+
+    try {
+      const response = await fetch('/api/auth/join', { // Adjust the URL to match your backend endpoint
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json', //type
+        },
+        body: JSON.stringify({
+          username: username,
+          password: password,
+        }),
+      });
+
+      if (response.ok) {
+        // On successful registration, navigate to the login page
+        navigate('/');
+      } else {
+        const errorData = await response.json();
+        console.error('Registration failed', errorData);
+        // Optionally display an error message to the user
+        alert(`Registration failed: ${errorData.message}`);
+      }
+    } catch (err) {
+      console.error('Registration failed', err);
+      alert('An error occurred. Please try again.');
+    }
+  };
+
+  return (
+    <div className="register-container">
       <h2>회원가입</h2>
       <form onSubmit={handleRegister}>
         <input
           type="text"
-          placeholder="이름"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
+          placeholder="아이디"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
         />
         <input
           type="password"
@@ -40,4 +71,4 @@ const Register: React.FC = () => {
   );
 };
 
-export default Register;
+export default RegisterPage;
