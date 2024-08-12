@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext'; // Assuming you have an AuthContext for managing authentication state
 import './LoginPage.css'
+import axios from 'axios';
 
 const LoginPage: React.FC = () => {
   const [username, setUsername] = useState('');
@@ -13,29 +14,24 @@ const LoginPage: React.FC = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
+        const response = await axios.post('/api/auth/login', {
           username: username,
           password: password,
-        }),
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        setToken(data.token); // Assuming the token is returned on successful login
-        navigate('/home'); // Redirect to the home page or another protected route
-      } else {
-        const errorData = await response.json();
-        console.error('Login failed', errorData);
-        alert(`Login failed: ${errorData.message}`);
-      }
-    } catch (err) {
-      console.error('Login failed', err);
-      alert('An error occurred. Please try again.');
+        });
+  
+        if (response.status === 200) {
+          const { token } = response.data;
+          setToken(token); // Assuming you store the token in AuthContext
+          axios.defaults.headers.common['Authorization'] = `Bearer ${token}`; // Set token for future requests
+          navigate('/'); // Redirect to the home page or another protected route
+        }
+      } catch (err) {
+        console.error('Login failed', err);
+        if (axios.isAxiosError(err) && err.response) {
+          alert(`Login failed: ${err.response.data.message}`);
+        } else {
+          alert('An error occurred. Please try again.');
+        }
     }
   };
 

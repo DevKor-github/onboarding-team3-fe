@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './RegisterPage.css'
+import './JoinPage.css'
+import axios from 'axios';
 
 const RegisterPage: React.FC = () => {
   const [username, setUsername] = useState('');
@@ -17,26 +18,17 @@ const RegisterPage: React.FC = () => {
     }
 
     try {
-      const response = await fetch('/api/auth/join', { // Adjust the URL to match your backend endpoint
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json', //type
-        },
-        body: JSON.stringify({
-          username: username,
-          password: password,
-        }),
+      const response = await axios.post('/api/auth/register', {
+        username,
+        password,
       });
+      console.log("1")
 
-      if (response.ok) {
-        // On successful registration, navigate to the login page
-        navigate('/');
-      } else {
-        const errorData = await response.json();
-        console.error('Registration failed', errorData);
-        // Optionally display an error message to the user
-        alert(`Registration failed: ${errorData.message}`);
+      if (response.status === 201) {
+        alert('Registration successful! Redirecting to login page...');
+        navigate('/');  // Redirect to login page
       }
+      console.log("2")
     } catch (err) {
       console.error('Registration failed', err);
       alert('An error occurred. Please try again.');

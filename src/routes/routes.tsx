@@ -2,7 +2,7 @@ import { RouteObject } from 'react-router-dom';
 
 /* Pages */
 import Login from '../pages/LoginPage';
-import Register from '../pages/RegisterPage';
+import Register from '../pages/JoinPage';
 
 const routes: RouteObject[] = [
     {
