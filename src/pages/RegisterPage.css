@@ -1,16 +1,4 @@
-/* index.css or a specific CSS file for login and register */
-body {
-    font-family: 'Arial', sans-serif;
-    background-color: #ffffff;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-  }
-  
-  .login-container {
+.register-container {
     background-color: #fff;
     width: 100%;
     max-width: 400px;
@@ -20,19 +8,19 @@ body {
     text-align: center;
   }
   
-  .login-container h2 {
+  .register-container h2 {
     margin-bottom: 24px;
     font-size: 20px;
     font-weight: bold;
     color: #333;
   }
   
-  .login-container form {
+  .register-container form {
     display: flex;
     flex-direction: column;
   }
   
-  .login-container input {
+  .register-container input {
     margin-bottom: 15px;
     padding: 10px;
     font-size: 16px;
@@ -40,7 +28,7 @@ body {
     border-radius: 4px;
   }
   
-  .login-container button {
+  .register-container button {
     padding: 12px;
     background-color: #333;
     color: white;
@@ -51,24 +39,24 @@ body {
     font-weight: bold;
   }
   
-  .login-container button:hover {
+  .register-container button:hover {
     background-color: #555;
   }
   
-  .login-container div {
+  .register-container div {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-top: 10px;
   }
   
-  .login-container a {
+  .register-container a {
     color: #666;
     text-decoration: none;
     font-size: 14px;
   }
   
-  .login-container a:hover {
+  .register-container a:hover {
     color: #333;
   }
   
