@@ -2,10 +2,11 @@ import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext'; // Assuming you have an AuthContext for managing authentication state
 import './LoginPage.css'
+import { login } from '../api/auth'; // import the login function
 import axios from 'axios';
 
 const LoginPage: React.FC = () => {
-  const [username, setUsername] = useState('');
+  const [username, setUsername] = useState(''); //동적인 데이터를 관리
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
   const { login: setToken } = useContext(AuthContext); // Assuming AuthContext provides a login function
@@ -14,17 +15,10 @@ const LoginPage: React.FC = () => {
     e.preventDefault();
 
     try {
-        const response = await axios.post('/api/auth/login', {
-          username: username,
-          password: password,
-        });
-  
-        if (response.status === 200) {
-          const { token } = response.data;
-          setToken(token); // Assuming you store the token in AuthContext
-          axios.defaults.headers.common['Authorization'] = `Bearer ${token}`; // Set token for future requests
-          navigate('/'); // Redirect to the home page or another protected route
-        }
+        const { token } = await login(username, password); // Use the login function from api
+        setToken(token);
+        axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        navigate('/chatlist');
       } catch (err) {
         console.error('Login failed', err);
         if (axios.isAxiosError(err) && err.response) {
@@ -32,7 +26,7 @@ const LoginPage: React.FC = () => {
         } else {
           alert('An error occurred. Please try again.');
         }
-    }
+      }
   };
 
   return (
@@ -44,6 +38,7 @@ const LoginPage: React.FC = () => {
           placeholder="아이디"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
+          // 입력 필드의 값을 상태로 관리하고, 사용자가 입력할 때마다 그 값을 업데이트하여 React 컴포넌트가 변경된 값을 반영하도록
         />
         <input
           type="password"

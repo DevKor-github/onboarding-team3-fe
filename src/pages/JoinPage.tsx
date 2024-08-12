@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './JoinPage.css'
+import { join } from '../api/auth';
 import axios from 'axios';
 
 const RegisterPage: React.FC = () => {
@@ -18,20 +19,13 @@ const RegisterPage: React.FC = () => {
     }
 
     try {
-      const response = await axios.post('/api/auth/register', {
-        username,
-        password,
-      });
-      console.log("1")
-
-      if (response.status === 201) {
+      const response = await join(username, password);
+      if (response) {
         alert('Registration successful! Redirecting to login page...');
-        navigate('/');  // Redirect to login page
+        navigate('/'); // Redirect to login page
       }
-      console.log("2")
     } catch (err) {
       console.error('Registration failed', err);
-      alert('An error occurred. Please try again.');
     }
   };
 
