@@ -1,0 +1,55 @@
+/* src/pages/ChatPage.css */
+
+.chat-container {
+    padding: 20px;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .chat-container h2 {
+    margin-bottom: 20px;
+  }
+  
+  .chat-messages {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 10px;
+    height: 300px;
+    overflow-y: auto;
+    margin-bottom: 10px;
+  }
+  
+  .message {
+    padding: 5px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .message:last-child {
+    border-bottom: none;
+  }
+  
+  .chat-form {
+    display: flex;
+  }
+  
+  .chat-form input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  .chat-form button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    border-radius: 4px;
+    margin-left: 10px;
+    cursor: pointer;
+  }
+  
+  .chat-form button:hover {
+    background-color: #0056b3;
+  }
+  
