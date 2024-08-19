@@ -18,7 +18,7 @@ const LoginPage = () => {
         const { token } = await login(username, password); // Use the login function from api
         setToken(token);
         axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-        navigate('/chatlist');
+        navigate('/chat');
       } catch (err) {
         console.error('Login failed', err);
         if (axios.isAxiosError(err) && err.response) {
@@ -63,16 +63,20 @@ const LoginPage = () => {
           onChange={(e) => setPassword(e.target.value)}
           className="w-full h-[50px] px-3.5 py-2.5 bg-white border border-[#d9d9d9] rounded-[10px] text-base text-[#d9d9d9] font-normal font-['Pretendard']"
         />
-      </form>
-
-      {/* Buttons */}
-      <div className="absolute top-[584.72px] w-full px-[34px] flex justify-center items-center gap-2.5">
+        
+        <div className="absolute top-[150px] w-full px-[34px] flex justify-between items-center gap-2.5">
         <a
           href="/join"
-          className="w-[155px] h-[51px] flex justify-center items-center p-2.5 bg-[#f2f2f7] text-[#3d3d3d] text-base font-normal font-['Pretendard'] rounded-lg shadow-inner"
+          className="w-[48%] h-[51px] flex justify-center items-center p-2.5 bg-[#f2f2f7] text-[#3d3d3d] text-base font-normal font-['Pretendard'] rounded-lg shadow-inner"
         >
           회원가입
         </a>
+        {/* <button
+          onClick={handleLogin}
+          className="w-[48%] h-[51px] p-2.5 bg-[#3d3d3d] text-white text-base font-normal font-['Pretendard'] rounded-lg shadow-inner"
+        >
+          로그인
+        </button> */}
         <a
           href="/chat" //나중에 submit button으로 바꾸기
           className="w-[155px] h-[51px] flex justify-center items-center p-2.5 bg-[#3d3d3d] text-white text-base font-normal font-['Pretendard'] rounded-lg shadow-inner"
@@ -80,6 +84,9 @@ const LoginPage = () => {
           로그인
         </a>
       </div>
+        
+      </form>
+
     </div>
   );
 };

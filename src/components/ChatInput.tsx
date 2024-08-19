@@ -1,7 +1,6 @@
 // src/components/MessageInput.tsx
 
 import React from 'react';
-import './ChatInput.css';
 
 interface ChatInputProps {
   newMessage: string;
@@ -9,18 +8,33 @@ interface ChatInputProps {
   handleSendMessage: () => void;
 }
 
-const ChatInput: React.FC<ChatInputProps> = ({ newMessage, setNewMessage, handleSendMessage }) => {
+const MessageInput: React.FC<ChatInputProps> = ({ newMessage, setNewMessage, handleSendMessage }) => {
   return (
-    <div className="message-input-container">
-      <input
-        type="text"
-        value={newMessage}
-        onChange={(e) => setNewMessage(e.target.value)}
-        placeholder="Type a message..."
-      />
-      <button onClick={handleSendMessage}>Send</button>
+    <div className="w-[393px] h-[83px] px-6 pt-3 pb-[30px] bg-white shadow-inner flex items-center gap-3">
+      {/* Placeholder for potential icons */}
+      <div className="w-4 h-4 relative"></div>
+
+      {/* Input box */}
+      <div className={`grow shrink basis-0 h-[41px] px-5 py-3 rounded-[30px] flex items-center gap-5 ${newMessage ? 'bg-white text-[#2c2c2e]' : 'bg-[#f2f2f7] text-[#666668]'}`}>
+        <input
+          type="text"
+          value={newMessage}
+          onChange={(e) => setNewMessage(e.target.value)}
+          placeholder="Start typing..."
+          className="grow shrink basis-0 bg-transparent text-sm font-normal font-['Pretendard'] outline-none"
+        />
+        <button
+          onClick={handleSendMessage}
+          className={`w-8 h-8 flex items-center justify-center rounded-full text-sm font-bold ${
+            newMessage ? 'bg-[#3d3d3d] text-white' : 'bg-[#f2f2f7] text-[#666668]'
+          }`}
+          disabled={!newMessage} // Disable button if no input
+        >
+          Send
+        </button>
+      </div>
     </div>
   );
 };
 
-export default ChatInput;
+export default MessageInput;

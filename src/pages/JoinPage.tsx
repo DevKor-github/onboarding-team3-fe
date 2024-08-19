@@ -7,7 +7,7 @@ const JoinPage: React.FC = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [profileImage, setProfileImage] = useState<File | null>(null); // For handling profile image upload
+  //const [profileImage, setProfileImage] = useState<File | null>(null); // For handling profile image upload
   const navigate = useNavigate();
 
   const handleRegister = async (e: React.FormEvent) => {
@@ -24,16 +24,21 @@ const JoinPage: React.FC = () => {
         alert('Registration successful! Redirecting to login page...');
         navigate('/'); // Redirect to login page
       }
-    } catch (err) {
+    } catch (err: any) {
+      if (err.response && err.response.data && err.response.data.message) {
+        alert(`Registration failed: ${err.response.data.message}`);
+      } else {
+        alert('Registration failed. Please try again later.');
+      }
       console.error('Registration failed', err);
     }
   };
 
-  const handleProfileImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      setProfileImage(e.target.files[0]);
-    }
-  };
+  // const handleProfileImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   if (e.target.files && e.target.files[0]) {
+  //     setProfileImage(e.target.files[0]);
+  //   }
+  // };
 
   return (
     <div className="w-[393px] h-[852px] relative bg-white">
@@ -77,7 +82,7 @@ const JoinPage: React.FC = () => {
         />
 
         {/* Profile Image Upload */}
-        <div className="w-full h-[50px] px-3.5 py-2.5 bg-[#f4f4f4] border border-[#d9d9d9] rounded-[10px] flex items-center gap-2.5">
+        {/* <div className="w-full h-[50px] px-3.5 py-2.5 bg-[#f4f4f4] border border-[#d9d9d9] rounded-[10px] flex items-center gap-2.5">
           <input
             type="file"
             onChange={handleProfileImageChange}
@@ -87,18 +92,16 @@ const JoinPage: React.FC = () => {
           <label htmlFor="profile-image" className="text-[#d9d9d9] text-base font-normal font-['Pretendard Variable'] cursor-pointer">
             프로필 이미지
           </label>
-        </div>
-      </form>
+        </div> */}
 
-      {/* Register Button */}
-      <div className="absolute top-[703px] w-full px-[34px] flex justify-center items-center">
+        {/* Register Button */}
         <button
-          type="submit"
-          className="w-full h-[51px] p-2.5 bg-[#3d3d3d] text-white text-base font-normal font-['Pretendard'] rounded-lg shadow-inner"
-        >
-          회원가입
-        </button>
-      </div>
+            type="submit"
+            className="w-full h-[51px] p-2.5 bg-[#3d3d3d] text-white text-base font-normal font-['Pretendard'] rounded-lg shadow-inner"
+          >
+            회원가입
+          </button>
+      </form>      
     </div>
   );
 };
