@@ -10,4 +10,10 @@ const App: React.FC = () => {
   return <div>{routing}</div>; // Renders the routes
 };
 
+const link = document.createElement('link');
+link.href = 'https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap';
+link.rel = 'stylesheet';
+document.head.appendChild(link);
+
 export default App;
+

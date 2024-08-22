@@ -33,12 +33,12 @@ const LoginPage = () => {
     <div className="w-[393px] h-[852px] relative bg-white">
       
       {/* Status Bar */}
-      <StatusBar time="9:41"/>
+      <StatusBar />
 
       {/* DEVKOR Logo */}
       <div className="absolute top-[253px] left-[71px] flex flex-col items-start justify-start gap-2.5">
         <div className="w-[234px] h-[51px] flex justify-center items-end">
-          <div className="text-center text-[#505156] text-[39px] font-bold font-['Montserrat']">DEVKOR</div>
+          <h1 className="flex text-[39px] block items-center justify-center font-bold font-['Montserrat'] color: #505156;"><img src="/src/assets/logo.svg" alt="logo" className="w-[51px] h-[51px] mr-[6px]"/> DEVKOR</h1>
         </div>
       </div>
 
@@ -54,20 +54,20 @@ const LoginPage = () => {
           placeholder="아이디"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
-          className="w-full h-[50px] px-3.5 py-2.5 bg-white border border-[#d9d9d9] rounded-[10px] text-base text-[#d9d9d9] font-normal font-['Pretendard']"
+          className="w-full h-[50px] px-3.5 py-2.5 bg-white border border-[#d9d9d9] rounded-[10px] text-base text-[#2c2c2e] font-normal font-['Pretendard']"
         />
         <input
           type="password"
           placeholder="비밀번호"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="w-full h-[50px] px-3.5 py-2.5 bg-white border border-[#d9d9d9] rounded-[10px] text-base text-[#d9d9d9] font-normal font-['Pretendard']"
+          className="w-full h-[50px] px-3.5 py-2.5 bg-white border border-[#d9d9d9] rounded-[10px] text-base text-[#2c2c2e] font-normal font-['Pretendard']"
         />
         
         <div className="absolute top-[150px] w-full px-[34px] flex justify-between items-center gap-2.5">
         <a
           href="/join"
-          className="w-[48%] h-[51px] flex justify-center items-center p-2.5 bg-[#f2f2f7] text-[#3d3d3d] text-base font-normal font-['Pretendard'] rounded-lg shadow-inner"
+          className="w-[48%] h-[51px] flex justify-center items-center p-2.5 bg-[#f2f2f7] text-[#3d3d3d] text-base font-normal font-['Pretendard'] rounded-lg shadow"
         >
           회원가입
         </a>
@@ -76,11 +76,10 @@ const LoginPage = () => {
           className="w-[48%] h-[51px] p-2.5 bg-[#3d3d3d] text-white text-base font-normal font-['Pretendard'] rounded-lg shadow-inner"
         >
           로그인
-        </button>  */}
-        
+        </button> */}
         <a
           href="/chat" //나중에 submit button으로 바꾸기
-          className="w-[155px] h-[51px] flex justify-center items-center p-2.5 bg-[#3d3d3d] text-white text-base font-normal font-['Pretendard'] rounded-lg shadow-inner"
+          className="w-[155px] h-[51px] flex justify-center items-center p-2.5 bg-[#3d3d3d] text-white text-base font-normal font-['Pretendard'] rounded-lg shadow"
         >
           로그인
         </a>

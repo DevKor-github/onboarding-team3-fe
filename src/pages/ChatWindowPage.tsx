@@ -4,7 +4,6 @@ import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import ChatComponent from '../components/ChatWindow';
 import ChatInput from '../components/ChatInput';
-import './ChatWindowPage.css';
 import ChatHeader from '../components/ChatHeader';
 import StatusBar from '../components/StatusBar';
 import MessageTipSelf from '../components/MessageTipSelf';
@@ -13,7 +12,7 @@ import MessageOther from '../components/MessageOther';
 import MessageSelf from '../components/MessageSelf';
 
 // 채팅방별 초기 메시지 설정
-const initialMessagesById: Record<string, { text: string; isSentByUser: boolean; isContinual: boolean; timestamp: string }[]> =  {
+const initialMessagesById: Record<string, { text: string; isSentByUser: boolean; isContinual: boolean; timestamp: string }[]> = {
   '1': [
     { text: 'Hey John!', isSentByUser: true, isContinual: false, timestamp: '09:00' },
     { text: 'What?', isSentByUser: false, isContinual: false, timestamp: '09:01' },
@@ -49,50 +48,50 @@ const ChatWindowPage: React.FC = () => {
 
   return (
     <div className="w-[393px] h-[852px] bg-white flex flex-col">
-      <StatusBar time='9:41'></StatusBar>
+      <StatusBar />
       <div className="h-[37px] px-5 py-2.5 flex items-center">
-    <div className="text-[#505156] text-[13px] flex items-center justify-center font-bold font-montserrat"><img src="/logo.svg" alt="logo" className="w-[17px] h-[17px] mr-"/>DEVKOR</div>
-  </div>
+        <div className="text-[#505156] text-[13px] flex items-center justify-center font-bold font-montserrat"><img src="/logo.svg" alt="logo" className="w-[17px] h-[17px] mr-" />DEVKOR</div>
+      </div>
 
-      
+
       <ChatHeader username="성우현" profileImageUrl="https://via.placeholder.com/32x32" />
       <div className="flex-grow overflow-auto p-4 bg-white">
         <div className="space-y-2">
           {messages.map((message, index) => (
-              message.isSentByUser ? (
+            message.isSentByUser ? (
 
-                message.isContinual ? (
-                  <MessageSelf 
-                    key={index} 
-                    message={message.text} 
-                    timestamp={message.timestamp} />
-                ):(
+              message.isContinual ? (
+                <MessageSelf
+                  key={index}
+                  message={message.text}
+                  timestamp={message.timestamp} />
+              ) : (
 
-                  <MessageTipSelf 
-                    key={index} 
-                    message={message.text} 
-                    timestamp={message.timestamp} />
-                )
-
-                  ) : (
-                
-
-                message.isContinual ? (
-                  <MessageOther
-                    key={index}
-                    message={message.text}
-                    senderName="경아"
-                    profileImageUrl="https://via.placeholder.com/32x32" timestamp={'11:11'}                />
-                ):(
-                  <MessageTipOther
-                      key={index}
-                      message={message.text}
-                      senderName="경아"
-                      profileImageUrl="https://via.placeholder.com/32x32" timestamp={'11:11'}                />
-                )
-
+                <MessageTipSelf
+                  key={index}
+                  message={message.text}
+                  timestamp={message.timestamp} />
               )
-            ))}
+
+            ) : (
+
+
+              message.isContinual ? (
+                <MessageOther
+                  key={index}
+                  message={message.text}
+                  senderName="경아"
+                  profileImageUrl="https://via.placeholder.com/32x32" timestamp={'11:11'} />
+              ) : (
+                <MessageTipOther
+                  key={index}
+                  message={message.text}
+                  senderName="경아"
+                  profileImageUrl="https://via.placeholder.com/32x32" timestamp={'11:11'} />
+              )
+
+            )
+          ))}
         </div>
       </div>
       <ChatInput

@@ -1,11 +1,10 @@
 // /src/components/statusbar/StatusBar.tsx
 import React from 'react';
+import useCurrentTime from './useCurrentTime';
 
-interface StatusBarProps {
-  time: string;
-}
+const StatusBar: React.FC = () => {
+  const time = useCurrentTime(); // 실시간 시간 가져오기
 
-const StatusBar: React.FC<StatusBarProps> = ({ time }) => {
   return (
     <div className="w-[393px] h-[54px] bg-white flex justify-between items-center px-6">
       {/* Time Display */}
