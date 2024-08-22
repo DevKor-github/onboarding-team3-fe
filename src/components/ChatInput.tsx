@@ -2,6 +2,7 @@
 
 import React from 'react';
 
+
 interface ChatInputProps {
   newMessage: string;
   setNewMessage: (value: string) => void;
@@ -21,7 +22,7 @@ const MessageInput: React.FC<ChatInputProps> = ({ newMessage, setNewMessage, han
           value={newMessage}
           onChange={(e) => setNewMessage(e.target.value)}
           placeholder="Start typing..."
-          className="grow shrink basis-0 bg-transparent text-sm font-normal font-['Pretendard'] outline-none"
+          className="w-full bg-transparent text-sm font-normal font-['Pretendard'] outline-none"
         />
         <button
           onClick={handleSendMessage}
