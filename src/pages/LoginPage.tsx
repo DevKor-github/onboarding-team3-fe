@@ -76,7 +76,8 @@ const LoginPage = () => {
           className="w-[48%] h-[51px] p-2.5 bg-[#3d3d3d] text-white text-base font-normal font-['Pretendard'] rounded-lg shadow-inner"
         >
           로그인
-        </button> */}
+        </button>  */}
+        
         <a
           href="/chat" //나중에 submit button으로 바꾸기
           className="w-[155px] h-[51px] flex justify-center items-center p-2.5 bg-[#3d3d3d] text-white text-base font-normal font-['Pretendard'] rounded-lg shadow-inner"
