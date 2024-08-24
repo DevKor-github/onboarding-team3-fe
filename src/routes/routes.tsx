@@ -12,7 +12,7 @@ const routes: RouteObject[] = [
     children: [
       { path: '/', element: <Login /> },
       { path: '/join', element: <Join /> },
-      { path: '/chat', element: <ChatList /> },
+      { path: '/chat/list', element: <ChatList /> },
       { path: '/chat/:chatId', element: <ChatWindowPage /> },
     ]}
 ];
