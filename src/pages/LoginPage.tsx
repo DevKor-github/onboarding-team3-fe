@@ -15,10 +15,17 @@ const LoginPage = () => {
     e.preventDefault();
 
     try {
-        const { token } = await login(username, password); // Use the login function from api
-        setToken(token);
-        axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-        navigate('/chat');
+        const token  = await login(username, password); // Use the login function from api
+        if (token) {
+          setToken(token);
+          axios.defaults.headers.common['Authorization'] = `${token}`;
+          localStorage.setItem('authToken', token);
+          console.log(token)
+          navigate('/chat/list');
+        } else {
+          alert('Token not found in response.');
+        }
+
       } catch (err) {
         console.error('Login failed', err);
         if (axios.isAxiosError(err) && err.response) {
@@ -71,18 +78,18 @@ const LoginPage = () => {
         >
           회원가입
         </a>
-        {/* <button
+        <button
           onClick={handleLogin}
           className="w-[48%] h-[51px] p-2.5 bg-[#3d3d3d] text-white text-base font-normal font-['Pretendard'] rounded-lg shadow-inner"
         >
           로그인
-        </button> */}
-        <a
+        </button>
+        {/* <a
           href="/chat" //나중에 submit button으로 바꾸기
           className="w-[155px] h-[51px] flex justify-center items-center p-2.5 bg-[#3d3d3d] text-white text-base font-normal font-['Pretendard'] rounded-lg shadow"
         >
           로그인
-        </a>
+        </a> */}
       </div>
         
       </form>

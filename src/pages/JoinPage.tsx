@@ -5,7 +5,7 @@ import StatusBar from '../components/StatusBar';
 
 const JoinPage: React.FC = () => {
   const [username, setUsername] = useState('');
-  const [nickname, setNickname] = useState('');
+  const [id, setId] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   //const [profileImage, setProfileImage] = useState<File | null>(null); // For handling profile image upload
@@ -20,8 +20,8 @@ const JoinPage: React.FC = () => {
     }
 
     try {
-      const response = await join(username, password);
-      if (response) {
+      const response = await join(id, password, username,"https://img.freepik.com/free-vector/flat-design-abstract-background_23-2149116121.jpg" );
+      if (response) {        
         alert('Registration successful! Redirecting to login page...');
         navigate('/'); // Redirect to login page
       }
@@ -57,15 +57,15 @@ const JoinPage: React.FC = () => {
         <input
           type="text"
           placeholder="아이디"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          value={id}
+          onChange={(e) => setId(e.target.value)}
           className="w-full h-[50px] px-3.5 py-2.5 bg-white border border-[#d9d9d9] rounded-[10px] text-base text-[#d9d9d9] font-normal font-['Pretendard']"
         />
         <input
           type="text"
           placeholder="닉네임"
-          value={nickname}
-          onChange={(e) => setNickname(e.target.value)}
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
           className="w-full h-[50px] px-3.5 py-2.5 bg-white border border-[#d9d9d9] rounded-[10px] text-base text-[#d9d9d9] font-normal font-['Pretendard']"
         />
         <input

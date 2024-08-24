@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { createContext, useState, useEffect, ReactNode } from 'react';
 
 interface AuthContextProps {
@@ -13,17 +14,24 @@ export const AuthContext = createContext<AuthContextProps>({
 });
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-    const [token, setToken] = useState<string | null>(localStorage.getItem('token'));
+    const [token, setToken] = useState<string | null>(localStorage.getItem('authToken'));
 
     const login = (token: string) => {
-        localStorage.setItem('token', token);
+        localStorage.setItem('authToken', token);
         setToken(token);
     };
 
     const logout = () => {
-        localStorage.removeItem('token');
         setToken(null);
+        localStorage.removeItem('authToken');
+        delete axios.defaults.headers.common['Authorization'];
     };
+
+      useEffect(() => {
+    if (token) {
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    }
+  }, [token]);
 
     return (
         <AuthContext.Provider value={{ token, login, logout }}>
