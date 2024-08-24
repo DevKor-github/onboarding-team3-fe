@@ -1,6 +1,8 @@
 // src/components/MessageInput.tsx
 
 import React from 'react';
+import SmileyIcon from '../assets/smiley.svg'; // Smiley icon
+import PaperPlaneIcon from '../assets/paper-airplane.svg'; // Paper plane icon
 
 
 interface ChatInputProps {
@@ -11,9 +13,11 @@ interface ChatInputProps {
 
 const MessageInput: React.FC<ChatInputProps> = ({ newMessage, setNewMessage, handleSendMessage }) => {
   return (
-    <div className="w-[393px] h-[83px] px-6 pt-3 pb-[30px] bg-white shadow-inner flex items-center gap-3">
-      {/* Placeholder for potential icons */}
-      <div className="w-4 h-4 relative"></div>
+    <div className="w-[393px] h-[83px] px-6 pt-3 pb-[30px] bg-white shadow flex items-center gap-3">
+      {/* Icon placeholder (Smiley Icon) */}
+      <div className="w-4 h-4 relative">
+        <img src={SmileyIcon} alt="Smiley" className="w-4 h-4" />
+      </div>
 
       {/* Input box */}
       <div className={`grow shrink basis-0 h-[41px] px-5 py-3 rounded-[30px] flex items-center gap-5 ${newMessage ? 'bg-white text-[#2c2c2e]' : 'bg-[#f2f2f7] text-[#666668]'}`}>
@@ -31,7 +35,7 @@ const MessageInput: React.FC<ChatInputProps> = ({ newMessage, setNewMessage, han
           }`}
           disabled={!newMessage} // Disable button if no input
         >
-          Send
+          <img src={PaperPlaneIcon} alt="Send" className="w-4 h-4" />
         </button>
       </div>
     </div>

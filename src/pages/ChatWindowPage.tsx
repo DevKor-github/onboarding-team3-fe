@@ -11,23 +11,23 @@ import MessageTipOther from '../components/MessageTipOther';
 import MessageOther from '../components/MessageOther';
 import MessageSelf from '../components/MessageSelf';
 
-// 채팅방별 초기 메시지 설정
-// const initialMessagesById: Record<string, { text: string; isSentByUser: boolean; isContinual: boolean; timestamp: string }[]> = {
-//   '1': [
-//     { text: 'Hey John!', isSentByUser: true, isContinual: false, timestamp: '09:00' },
-//     { text: 'What?', isSentByUser: false, isContinual: false, timestamp: '09:01' },
-//     { text: 'Hey! How’s it going?', isSentByUser: false, isContinual: true, timestamp: '09:02' },
-//   ],
-//   '2': [
-//     { text: 'Hi Jane, are you coming to the party?', isSentByUser: true, isContinual: false, timestamp: '10:00' },
-//     { text: 'Yes, I’ll be there at 7.', isSentByUser: false, isContinual: false, timestamp: '10:05' },
-//   ],
-//   '3': [
-//     { text: 'Alice, have you finished the project?', isSentByUser: true, isContinual: false, timestamp: '11:00' },
-//     { text: 'I dont know', isSentByUser: true, isContinual: true, timestamp: '11:01' },
-//     { text: 'Almost done! I’ll send it to you soon.', isSentByUser: false, isContinual: false, timestamp: '11:10' },
-//   ],
-// };
+
+const initialMessagesById: Record<string, { text: string; isSentByUser: boolean; isContinual: boolean; timestamp: string }[]> = {
+  '1': [
+    { text: 'Hey John!', isSentByUser: true, isContinual: false, timestamp: '09:00' },
+    { text: 'What?', isSentByUser: false, isContinual: false, timestamp: '09:01' },
+    { text: 'Hey! How’s it going?', isSentByUser: false, isContinual: true, timestamp: '09:02' },
+  ],
+  '2': [
+    { text: 'Hi Jane, are you coming to the party?', isSentByUser: true, isContinual: false, timestamp: '10:00' },
+    { text: 'Yes, I’ll be there at 7.', isSentByUser: false, isContinual: false, timestamp: '10:05' },
+  ],
+  '3': [
+    { text: 'Alice, have you finished the project?', isSentByUser: true, isContinual: false, timestamp: '11:00' },
+    { text: 'I dont know', isSentByUser: true, isContinual: true, timestamp: '11:01' },
+    { text: 'Almost done! I’ll send it to you soon.', isSentByUser: false, isContinual: false, timestamp: '11:10' },
+  ],
+};
 
 
 const getCurrentTime = () => {
@@ -149,13 +149,13 @@ const ChatWindowPage: React.FC = () => {
                   key={index}
                   message={message.text}
                   senderName={message.username}
-                  profileImageUrl="https://via.placeholder.com/32x32" timestamp={'11:11'} />
+                  profileImageUrl="https://via.placeholder.com/32x32" timestamp={'message.timestamp'} />
               ) : (
                 <MessageTipOther
                   key={index}
                   message={message.text}
                   senderName={message.username}
-                  profileImageUrl="https://via.placeholder.com/32x32" timestamp={'11:11'} />
+                  profileImageUrl="https://via.placeholder.com/32x32" timestamp={'message.timestamp'} />
               )
 
             )

@@ -68,27 +68,28 @@ const ChatListPage: React.FC = () => {
     <div className="w-[393px] h-[852px] bg-white flex flex-col">
       <StatusBar />
       <div className="h-[37px] px-5 py-2.5 flex items-center">
-        <div className="text-[#505156] text-[13px] font-bold font-['Montserrat']">DEVKOR</div>
+        <div className="text-[#505156] text-[13px] flex justify-center font-bold font-['Montserrat']"><img src="../src/assets/logo.svg" alt="logo" className="w-[17px] h-[17px] mr-1"/>DEVKOR</div>
       </div>
-      <div className="h-[62px] px-6 py-[15px] bg-white flex items-center">
-        <div className="text-[#2c2c2e] text-lg font-semibold font-['Pretendard'] leading-[18px]">채팅</div>
-        <div className="flex items-center space-x-2">
-          <input
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)} // Update the username state on input change
-            placeholder="Enter username"
-            className="border border-gray-300 rounded px-2 py-1 text-sm"
-          />
-          <button
-            onClick={createChatRoom} // Trigger chat room creation on button click
-            className="text-black px-3 py-1 text-sm line"
-          >
-            +
-          </button>
-        </div>
-      
-      </div>
+      <div className="h-[62px] px-6 py-[15px] bg-white flex items-center justify-between">
+    <div className="text-[#2c2c2e] text-lg font-semibold font-['Pretendard'] leading-[18px]">
+      채팅
+    </div>
+    <div className="flex items-center space-x-2">
+      <input
+        type="text"
+        value={username}
+        onChange={(e) => setUsername(e.target.value)} // Update the username state on input change
+        placeholder="Enter username"
+        className="rounded px-2 py-1 text-sm border-none focus:outline-none bg-gray-100"
+      />
+      <button
+        onClick={createChatRoom} // Trigger chat room creation on button click
+        className="text-black px-3 py-1 text-sm line"
+      >
+        +
+      </button>
+    </div>
+  </div>
       <div className="w-[390px] h-2.5 bg-neutral-50 border-t border-b border-neutral-100"></div>
       <div className="flex-1 overflow-auto">
         {chats.map((chat) => (

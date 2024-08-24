@@ -1,11 +1,17 @@
-/** @type {import('tailwindcss').Config} */
-export default {
+// tailwind.config.js
+
+module.exports = {
   content: [
     './index.html',
-    './src/**/*.{js,jsx,ts,tsx}'],
+    './src/**/*.{js,jsx,ts,tsx}',
+  ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        'montserrat': ['Montserrat', 'sans-serif'],
+        'pretendard': ['Pretendard', 'sans-serif'],
+      },
+    },
   },
   plugins: [],
-}
-
+};
