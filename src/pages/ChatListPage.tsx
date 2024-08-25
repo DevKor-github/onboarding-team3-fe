@@ -71,7 +71,7 @@ const ChatListPage: React.FC = () => {
         <div className="text-[#505156] text-[13px] flex justify-center font-bold font-['Montserrat']"><img src="../src/assets/logo.svg" alt="logo" className="w-[17px] h-[17px] mr-1"/>DEVKOR</div>
       </div>
       <div className="h-[62px] px-6 py-[15px] bg-white flex items-center justify-between">
-    <div className="text-[#2c2c2e] text-lg font-semibold font-['Pretendard'] leading-[18px]">
+    <div className="text-[#2c2c2e] text-lg font-bold font-['Pretendard'] leading-[18px]">
       채팅
     </div>
     <div className="flex items-center space-x-2">
