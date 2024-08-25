@@ -50,7 +50,7 @@ const LoginPage = () => {
       </div>
 
       {/* Login Title */}
-      <div className="absolute left-[24px] top-[363.72px] text-[#2c2c2e] text-lg font-semibold font-['Pretendard']">
+      <div className="absolute left-[24px] top-[363.72px] text-[#2c2c2e] text-lg font-bold font-['Pretendard']">
         로그인
       </div>
 

@@ -1,5 +1,4 @@
 // tailwind.config.js
-
 module.exports = {
   content: [
     './index.html',
@@ -10,7 +9,7 @@ module.exports = {
       fontFamily: {
         'montserrat': ['Montserrat', 'sans-serif'],
         'pretendard': ['Pretendard', 'sans-serif'],
-      },
+      }
     },
   },
   plugins: [],

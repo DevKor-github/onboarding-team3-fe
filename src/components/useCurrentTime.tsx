@@ -16,7 +16,11 @@ const useCurrentTime = () => {
 
 const getCurrentTime = () => {
   const now = new Date();
-  return now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+  return now.toLocaleTimeString('ko-KR', {
+    hour: 'numeric',
+    minute: 'numeric',
+    hour12: true, // 12시간제
+  });
 };
 
 export default useCurrentTime;
