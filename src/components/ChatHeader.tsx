@@ -15,7 +15,7 @@ const ChatHeader: React.FC<ChatHeaderProps> = ({ username, profileImageUrl }) =>
         <div className="w-8 h-8 relative">
           <div className="w-8 h-8 left-0 top-0 absolute flex items-center justify-center">
             <img
-              className="w-8 h-8 rounded-full border-2 border-[#1e1e1e]/10"
+              className="w-8 h-8 rounded-full"
               src={profileImageUrl || defaultImageUrl}
               alt="Profile"
             />

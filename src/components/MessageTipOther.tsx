@@ -17,7 +17,7 @@ const MessageOther: React.FC<MessageOtherProps> = ({ message, senderName, profil
     <div className="flex mb-2.5 flex items-start gap-1">
       <div className="w-8 h-8 flex justify-center items-center">
         <img
-          className="w-8 h-8 rounded-full border-2 border-[#1e1e1e]/10"
+          className="w-8 h-8 rounded-full"
           src={profileImageUrl}
           alt={`${senderName}'s profile`}
         />
