@@ -128,7 +128,7 @@ const ChatListPage: React.FC = () => {
                 <div className="w-8 h-8 absolute flex justify-center items-center">
                   <img
                     className="w-8 h-8 rounded-full"
-                    src={chat.profileURL}
+                    src={chat.profileURL || '../src/assets/user.svg'}
                     alt={chat.displayName}
                   />
                 </div>
@@ -139,7 +139,7 @@ const ChatListPage: React.FC = () => {
             </div>
             <div className="text-black text-sm font-normal font-['Pretendard'] leading-[18px]">
               {/* Format the date to a readable time (e.g., 10:30 AM) */}
-              {new Date(chat.messageCreatedDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+              {new Date(chat.messageCreatedDate).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}
             </div>
           </div>
         ))}
