@@ -18,7 +18,7 @@ const getCurrentTime = () => {
   const now = new Date();
   return now.toLocaleTimeString('ko-KR', {
     hour: 'numeric',
-    minute: 'numeric',
+    minute: '2-digit',
     hour12: true, // 12시간제
   });
 };

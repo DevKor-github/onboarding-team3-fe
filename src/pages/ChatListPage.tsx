@@ -13,56 +13,94 @@ interface Chat {
   messageCreatedDate: string;
 }
 
+
+// 임시데이터
 const ChatListPage: React.FC = () => {
   const [chats, setChats] = useState<Chat[]>([]); // State to store the fetched chat data
   const [username, setUsername] = useState('');
   const navigate = useNavigate();
 
-  // Function to fetch chat data from the server using axios
-  const fetchChatData = async () => {
-    try {
-      const response = await axios.get<Chat[]>('http://ec2-43-203-30-181.ap-northeast-2.compute.amazonaws.com:8080/api/chat/list', {});
-      console.log('ChatList API response:', response); 
-  
-      setChats(response.data); // Update the state with the fetched data
-    } catch (error) {
-      console.error('Error fetching chat data:', error);
-    }
+  const createTemporaryChatData = () => {
+    const tempChats: Chat[] = [
+      {
+        roomNumber: 1,
+        displayName: 'John Doe',
+        username: 'johndoe',
+        profileURL: 'https://via.placeholder.com/150',
+        message: 'Hey there!',
+        messageCreatedDate: new Date().toISOString(),
+      },
+      {
+        roomNumber: 2,
+        displayName: 'Jane Smith',
+        username: 'janesmith',
+        profileURL: 'https://via.placeholder.com/150',
+        message: 'Let\'s catch up later.',
+        messageCreatedDate: new Date().toISOString(),
+      },
+      {
+        roomNumber: 3,
+        displayName: 'Chris Evans',
+        username: 'chrisevans',
+        profileURL: 'https://via.placeholder.com/150',
+        message: 'See you at the gym.',
+        messageCreatedDate: new Date().toISOString(),
+      },
+    ];
+    setChats(tempChats);
   };
 
-  const createChatRoom = async () => {
-    try {
-      // Send a POST request to create a new chat room
-      const response = await axios.post<Chat>('http://ec2-43-203-30-181.ap-northeast-2.compute.amazonaws.com:8080/api/chat/createRoom', {
-         // Include the username in the request body
-        username
-      }, {});
-      console.log('CreateChatRoom API response:', response);
+  useEffect(() => {
+    createTemporaryChatData(); // Load temporary chat data on component mount
+  }, []);
 
-      // Update the chat list with the newly created chat room
-      setChats((prevChats) => [...prevChats, response.data]);
-      setUsername(''); // Clear the input field
-    } catch (error) {
-      console.error('Error creating chat room:', error);
-    }
-  };
+
+// 진짜데이터,,
+//   // Function to fetch chat data from the server using axios
+//   const fetchChatData = async () => {
+//     try {
+//       const response = await axios.get<Chat[]>('http://ec2-43-203-30-181.ap-northeast-2.compute.amazonaws.com:8080/api/chat/list', {});
+//       console.log('ChatList API response:', response); 
+  
+//       setChats(response.data); // Update the state with the fetched data
+//     } catch (error) {
+//       console.error('Error fetching chat data:', error);
+//     }
+//   };
+
+//   const createChatRoom = async () => {
+//     try {
+//       // Send a POST request to create a new chat room
+//       const response = await axios.post<Chat>('http://ec2-43-203-30-181.ap-northeast-2.compute.amazonaws.com:8080/api/chat/createRoom', {
+//          // Include the username in the request body
+//         username
+//       }, {});
+//       console.log('CreateChatRoom API response:', response);
+
+//       // Update the chat list with the newly created chat room
+//       setChats((prevChats) => [...prevChats, response.data]);
+//       setUsername(''); // Clear the input field
+//     } catch (error) {
+//       console.error('Error creating chat room:', error);
+//     }
+//   };
 
   
 
-  const handleSelectChat = async (roomNumber: number) => {
-    try {
-      const response = await axios.get(`http://ec2-43-203-30-181.ap-northeast-2.compute.amazonaws.com:8080/api/chat/${roomNumber}`, {});
+//   const handleSelectChat = async (roomNumber: number) => {
+//     try {
+//       const response = await axios.get(`http://ec2-43-203-30-181.ap-northeast-2.compute.amazonaws.com:8080/api/chat/${roomNumber}`, {});
       
-      console.log('HandleSelectChat API response:', response);
-      // Pass the room messages as state when navigating to the ChatWindowPage
-      navigate(`/chat/${roomNumber}`, { state: { messages: response.data, roomNumber } });
-    } catch (error) {
-      console.error('Error fetching chat messages:', error);
-    }};
+//       console.log('HandleSelectChat API response:', response);
+//       // Pass the room messages as state when navigating to the ChatWindowPage
+//       navigate(`/chat/${roomNumber}`, { state: { messages: response.data, roomNumber } });
+//     } catch (error) {
+//       console.error('Error fetching chat messages:', error);
+//     }};
 
-    useEffect(() => {
-      fetchChatData(); // Fetch the chat data when the component mounts
-    }, []);
+//     useEffect(() => {
+//       fetchChatData(); // Fetch the chat data when the component mounts
+//     }, []);
 
   return (
     <div className="w-[393px] h-[852px] bg-white flex flex-col">
@@ -83,7 +121,8 @@ const ChatListPage: React.FC = () => {
         className="rounded px-2 py-1 text-sm border-none focus:outline-none bg-gray-100"
       />
       <button
-        onClick={createChatRoom} // Trigger chat room creation on button click
+        // onClick={createChatRoom} // Trigger chat room creation on button click
+        onClickCapture={() => {}} //임시데이터용
         className="text-black px-3 py-1 text-sm line"
       >
         +
@@ -95,14 +134,15 @@ const ChatListPage: React.FC = () => {
         {chats.map((chat) => (
           <div
             key={chat.roomNumber}
-            className="h-[62px] px-6 py-[15px] bg-white shadow-inner flex justify-between items-center"
-            onClick={() => handleSelectChat(chat.roomNumber)}
+            className="h-[62px] px-6 py-[15px] bg-white border-[0.5px] flex justify-between items-center"
+            // onClick={() => handleSelectChat(chat.roomNumber)} // 진짜,, 
+            onClickCapture={() => console.log('Selected chat room number: ${chat.roomNumber')} //임시데이터용
           >
             <div className="flex items-center gap-1">
               <div className="w-8 h-8 relative">
                 <div className="w-8 h-8 absolute flex justify-center items-center">
                   <img
-                    className="w-8 h-8 rounded-full border-2 border-[#1e1e1e]/10"
+                    className="w-8 h-8 rounded-full"
                     src={chat.profileURL}
                     alt={chat.displayName}
                   />
@@ -114,7 +154,7 @@ const ChatListPage: React.FC = () => {
             </div>
             <div className="text-black text-sm font-normal font-['Pretendard'] leading-[18px]">
               {/* Format the date to a readable time (e.g., 10:30 AM) */}
-              {new Date(chat.messageCreatedDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+              {new Date(chat.messageCreatedDate).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}
             </div>
           </div>
         ))}

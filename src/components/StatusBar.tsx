@@ -3,21 +3,18 @@ import React from 'react';
 import useCurrentTime from './useCurrentTime';
 
 const StatusBar: React.FC = () => {
-  const time = useCurrentTime(); // 실시간 시간 가져오기
+  let time = useCurrentTime(); // 실시간 시간 가져오기
+
+  time = time.replace(/오전 |오후 /, '');
 
   return (
-    <div className="w-[393px] h-[54px] bg-white flex justify-between items-center px-6">
+    <div className="w-[393px] h-[54px] bg-white flex justify-between items-center pl-[20px]">
       {/* Time Display */}
-      <div className="text-black text-[17px] font-['SF Pro'] leading-snug">
+      <div className="text-black text-[15px] font-bold font-['Pretendard'] leading-snug pl-[30px]">
         {time}
       </div>
-      
-      {/* Status Indicator */}
-      <div className="relative flex items-center">
-        <div className="w-[27.33px] h-[13px] rounded opacity-0">
-          {/* Invisible border */}
-        </div>
-        <div className="w-[21px] h-[9px] bg-black rounded-sm absolute top-[2px] left-[2px]"></div>
+      <div className="relative flex items-center ml-auto">
+        <img src="../src/assets/status.svg" alt="status" className="h-[54px]"></img>
       </div>
     </div>
   );
