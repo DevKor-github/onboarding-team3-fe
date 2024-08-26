@@ -3,6 +3,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import { io, Socket } from 'socket.io-client';
+import SockJS from 'sockjs-client';
 import ChatInput from '../components/ChatInput';
 import ChatHeader from '../components/ChatHeader';
 import StatusBar from '../components/StatusBar';
@@ -10,6 +11,7 @@ import MessageTipSelf from '../components/MessageTipSelf';
 import MessageTipOther from '../components/MessageTipOther';
 import MessageOther from '../components/MessageOther';
 import MessageSelf from '../components/MessageSelf';
+import ChatList from '../components/ChatList';
 
 interface ChatMessage {
   text: string;
@@ -32,18 +34,7 @@ const ChatWindowPage: React.FC = () => {
 
   const { chatId } = useParams<{ chatId: string }>(); // URL의 chatId 파라미터 사용
   const location = useLocation();
-  // location.state가 없을 경우 기본값으로 챗봇 데이터를 설정
-  const {
-    messages: initialMessages = [],
-    roomNumber = 100, // 기본 채팅방 번호
-    displayName = '챗봇',
-    username = 'chatbot',
-  } = (location.state || {}) as {
-    messages: any[];
-    roomNumber: number;
-    displayName: string;
-    username: string;
-  };
+  const { messages: initialMessages, roomNumber, displayName, username } = location.state as { messages: any[], roomNumber: number, displayName: string, username: string  };
 
   const transformMessages = (serverMessages: any[]): ChatMessage[] => {
     return serverMessages
@@ -62,6 +53,7 @@ const ChatWindowPage: React.FC = () => {
   const [newMessage, setNewMessage] = useState('');
   const [ws, setWs] = useState<WebSocket | null>(null);
 
+
   useEffect(() => {
     // 메시지가 추가될 때마다 스크롤을 맨 아래로 이동
     if (chatContainerRef.current) {
@@ -72,6 +64,8 @@ const ChatWindowPage: React.FC = () => {
   
 
   useEffect(() => {
+    const ws = new WebSocket(`ws://ec2-43-203-30-181.ap-northeast-2.compute.amazonaws.com:8080/api/chat/room/${roomNumber}`);
+    setWs(ws);
 
     ws.onopen = () => {
       console.log('WebSocket connection opened');
@@ -183,11 +177,6 @@ const ChatWindowPage: React.FC = () => {
 
 
     console.log("Send\n"+ displayName + JSON.stringify(messageData))
-    
-    const isContinual =
-    messages.length > 0 &&
-    messages[messages.length - 1].username === username &&
-    messages[messages.length - 1].timestamp === getCurrentTime();
   
     setMessages((prevMessages) => [
       ...prevMessages,
