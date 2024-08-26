@@ -20,7 +20,7 @@ const MessageInput: React.FC<ChatInputProps> = ({ newMessage, setNewMessage, han
       </div>
 
       {/* Input box */}
-      <div className={`grow shrink basis-0 h-[41px] px-5 py-3 rounded-[30px] flex items-center gap-5 ${newMessage ? 'bg-white text-[#2c2c2e]' : 'bg-[#f2f2f7] text-[#666668]'}`}>
+      <div className={`grow shrink basis-0 h-[41px] px-5 py-3 rounded-[30px] flex items-center gap-5 ${newMessage ? 'bg-[#f2f2f7] text-[#2c2c2e]' : 'bg-[#f2f2f7] text-[#666668]'}`}>
         <input
           type="text"
           value={newMessage}
@@ -31,7 +31,7 @@ const MessageInput: React.FC<ChatInputProps> = ({ newMessage, setNewMessage, han
         <button
           onClick={handleSendMessage}
           className={`w-8 h-8 flex items-center justify-center rounded-full text-sm font-bold ${
-            newMessage ? 'bg-[#3d3d3d] text-white' : 'bg-[#f2f2f7] text-[#666668]'
+            newMessage ? 'bg-[#f2f2f7] text-white' : 'bg-[#f2f2f7] text-[#666668]'
           }`}
           disabled={!newMessage} // Disable button if no input
         >

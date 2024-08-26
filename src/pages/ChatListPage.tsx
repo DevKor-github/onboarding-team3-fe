@@ -49,13 +49,16 @@ const ChatListPage: React.FC = () => {
 
   
 
-  const handleSelectChat = async (roomNumber: number) => {
+  const handleSelectChat = async (roomNumber: number, displayName: string, username: string) => {
     try {
       const response = await axios.get(`http://ec2-43-203-30-181.ap-northeast-2.compute.amazonaws.com:8080/api/chat/${roomNumber}`, {});
       
       console.log('HandleSelectChat API response:', response);
+      console.log(displayName, roomNumber)
       // Pass the room messages as state when navigating to the ChatWindowPage
-      navigate(`/chat/${roomNumber}`, { state: { messages: response.data, roomNumber } });
+      navigate(`/chat/room/${roomNumber}`, { 
+        state: { messages: response.data, roomNumber, displayName, username } 
+      });
     } catch (error) {
       console.error('Error fetching chat messages:', error);
     }};
@@ -96,7 +99,7 @@ const ChatListPage: React.FC = () => {
           <div
             key={chat.roomNumber}
             className="h-[62px] px-6 py-[15px] bg-white shadow-inner flex justify-between items-center"
-            onClick={() => handleSelectChat(chat.roomNumber)}
+            onClick={() => handleSelectChat(chat.roomNumber, chat.username, chat.displayName)}
           >
             <div className="flex items-center gap-1">
               <div className="w-8 h-8 relative">
