@@ -59,28 +59,28 @@ const JoinPage: React.FC = () => {
           placeholder="아이디"
           value={id}
           onChange={(e) => setId(e.target.value)}
-          className="w-full h-[50px] px-3.5 py-2.5 bg-white border border-[#d9d9d9] rounded-[10px] text-base text-[#d9d9d9] font-normal font-['Pretendard']"
+          className="w-full h-[50px] px-3.5 py-2.5 bg-white border border-[#d9d9d9] rounded-[10px] text-base text-[#2c2c2e] font-normal font-['Pretendard']"
         />
         <input
           type="text"
           placeholder="닉네임"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
-          className="w-full h-[50px] px-3.5 py-2.5 bg-white border border-[#d9d9d9] rounded-[10px] text-base text-[#d9d9d9] font-normal font-['Pretendard']"
+          className="w-full h-[50px] px-3.5 py-2.5 bg-white border border-[#d9d9d9] rounded-[10px] text-base text-[#2c2c2e] font-normal font-['Pretendard']"
         />
         <input
           type="password"
           placeholder="비밀번호"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="w-full h-[50px] px-3.5 py-2.5 bg-white border border-[#d9d9d9] rounded-[10px] text-base text-[#d9d9d9] font-normal font-['Pretendard']"
+          className="w-full h-[50px] px-3.5 py-2.5 bg-white border border-[#d9d9d9] rounded-[10px] text-base text-[#2c2c2e] font-normal font-['Pretendard']"
         />
         <input
           type="password"
           placeholder="비밀번호 확인"
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
-          className="w-full h-[50px] px-3.5 py-2.5 bg-white border border-[#d9d9d9] rounded-[10px] text-base text-[#d9d9d9] font-normal font-['Pretendard']"
+          className="w-full h-[50px] px-3.5 py-2.5 bg-white border border-[#d9d9d9] rounded-[10px] text-base text-[#2c2c2e] font-normal font-['Pretendard']"
         />
 
         <div className="w-full h-[50px] px-3.5 py-2.5 bg-[#f4f4f4] border border-[#d9d9d9] rounded-[10px] flex items-center gap-2.5">
