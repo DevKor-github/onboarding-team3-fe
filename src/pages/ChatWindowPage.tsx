@@ -203,7 +203,7 @@ const ChatWindowPage: React.FC = () => {
       </div>
 
 
-      <ChatHeader username={username || ''} profileImageUrl="https://via.placeholder.com/32x32" />
+      <ChatHeader username={username || ''} profileImageUrl="https://via.placeholder.com/32x32" roomNumber={roomNumber}/>
       
       <div ref={chatContainerRef} className="flex-grow overflow-auto p-4 bg-white">
         <div className="space-y-2">
