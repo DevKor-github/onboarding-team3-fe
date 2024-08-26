@@ -3,7 +3,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import { io, Socket } from 'socket.io-client';
-import SockJS from 'sockjs-client';
 import ChatInput from '../components/ChatInput';
 import ChatHeader from '../components/ChatHeader';
 import StatusBar from '../components/StatusBar';
@@ -11,7 +10,6 @@ import MessageTipSelf from '../components/MessageTipSelf';
 import MessageTipOther from '../components/MessageTipOther';
 import MessageOther from '../components/MessageOther';
 import MessageSelf from '../components/MessageSelf';
-import ChatList from '../components/ChatList';
 
 interface ChatMessage {
   text: string;
@@ -34,7 +32,18 @@ const ChatWindowPage: React.FC = () => {
 
   const { chatId } = useParams<{ chatId: string }>(); // URL의 chatId 파라미터 사용
   const location = useLocation();
-  const { messages: initialMessages, roomNumber, displayName, username } = location.state as { messages: any[], roomNumber: number, displayName: string, username: string  };
+  // location.state가 없을 경우 기본값으로 챗봇 데이터를 설정
+  const {
+    messages: initialMessages = [],
+    roomNumber = 100, // 기본 채팅방 번호
+    displayName = '챗봇',
+    username = 'chatbot',
+  } = (location.state || {}) as {
+    messages: any[];
+    roomNumber: number;
+    displayName: string;
+    username: string;
+  };
 
   const transformMessages = (serverMessages: any[]): ChatMessage[] => {
     return serverMessages.map(msg => ({
@@ -52,6 +61,19 @@ const ChatWindowPage: React.FC = () => {
   const [socket, setSocket] = useState<Socket | null>(null);
   const [ws, setWs] = useState<WebSocket | null>(null);
   const [isSocketOpen, setIsSocketOpen] = useState(false); // WebSocket 연결 상태
+
+    // 챗봇의 환영 메시지를 추가하는 함수
+    const sendWelcomeMessageFromChatbot = () => {
+      const welcomeMessage: ChatMessage = {
+        text: '안녕하세요! 무엇을 도와드릴까요?',
+        isSentByUser: false,
+        isContinual: false,
+        timestamp: getCurrentTime(),
+        displayname: '챗봇',
+        username: 'chatbot',
+      };
+      setMessages((prevMessages) => [...prevMessages, welcomeMessage]);
+    };
   
   useEffect(() => {
     // 메시지가 추가될 때마다 스크롤을 맨 아래로 이동
@@ -61,6 +83,11 @@ const ChatWindowPage: React.FC = () => {
   }, [messages]); // messages 배열이 업데이트될 때마다 실행
 
   useEffect(() => {
+    if (!location.state) {
+      // location.state가 없는 경우에만 환영 메시지를 보냄
+      sendWelcomeMessageFromChatbot();
+    }
+
     const socket = new WebSocket(`ws://ec2-43-203-30-181.ap-northeast-2.compute.amazonaws.com:8080/api/chat/room/${roomNumber}`);
     setWs(socket);
 
@@ -72,17 +99,22 @@ const ChatWindowPage: React.FC = () => {
     socket.onmessage = (event) => {
       console.log(event.data)
       try {
-        const message = event.data; // 수신한 메시지를 JSON으로 파싱
+        const messageData = event.data; // 수신한 메시지를 JSON으로 파싱
+        
+        const isContinual =
+          messages.length > 0 &&
+          messages[messages.length - 1].username === messageData.username &&
+          messages[messages.length - 1].timestamp === getCurrentTime();
 
         setMessages((prevMessages: any) => [
           ...prevMessages,
           {
-            text: message.message,
+            text: messageData.message,
             isSentByUser: false,
-            isContinual: false, // 연속 메시지 여부 판단 로직 추가 가능
+            isContinual: isContinual, // 연속 메시지 여부 판단 로직 추가 가능
             timestamp: getCurrentTime(),
-            displayname: message.displayName, // 보낸 사람의 username 추가
-            username: message.username
+            displayname: messageData.displayName, // 보낸 사람의 username 추가
+            username: messageData.username
           }
         ]);
       } catch (error) {
@@ -133,6 +165,11 @@ const ChatWindowPage: React.FC = () => {
     ws.send(JSON.stringify(messageData));
 
     console.log("Send\n"+ displayName + JSON.stringify(messageData))
+    
+    const isContinual =
+    messages.length > 0 &&
+    messages[messages.length - 1].username === username &&
+    messages[messages.length - 1].timestamp === getCurrentTime();
   
     setMessages((prevMessages) => [
       ...prevMessages,

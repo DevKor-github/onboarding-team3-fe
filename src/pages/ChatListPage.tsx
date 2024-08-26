@@ -17,7 +17,7 @@ const ChatListPage: React.FC = () => {
   // 초기 데이터를 포함하여 useState 설정
   const [chats, setChats] = useState<Chat[]>([
     {
-      roomNumber: 1,
+      roomNumber: 100,
       displayName: '챗봇',
       username: 'chatbot',
       profileURL: '', // 프로필 이미지가 없으면 기본 이미지를 사용
@@ -26,7 +26,7 @@ const ChatListPage: React.FC = () => {
       
     },
     {
-      roomNumber: 2,
+      roomNumber: 101,
       displayName: '성우현',
       username: 'woohyun',
       profileURL: '', // 프로필 이미지가 없으면 기본 이미지를 사용
