@@ -10,7 +10,7 @@ interface SelfMessageProps {
 
 const SelfMessage: React.FC<SelfMessageProps> = ({ message, timestamp }) => {
   return (
-    <div className="flex justify-end pr-6 pb-2.5">
+    <div className="flex justify-end pr-6 mb-2.5">
       {/* Message Bubble */}
       <div className="relative bg-[#3188ef] text-white rounded-tl-lg rounded-bl-lg rounded-br-md px-3 py-2 max-w-[286px] box-border">
         <div className="text-left text-[14px] font-normal font-['Pretendard Variable'] leading-tight whitespace-pre-wrap break-words">

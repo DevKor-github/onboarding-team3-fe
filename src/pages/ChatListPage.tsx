@@ -67,7 +67,7 @@ const ChatListPage: React.FC = () => {
     }
   };
 
-  
+
 
   const handleSelectChat = async (roomNumber: number, displayName: string, username: string) => {
     try {
@@ -99,7 +99,7 @@ const ChatListPage: React.FC = () => {
     <div className="text-[#2c2c2e] text-lg font-bold font-['Pretendard'] leading-[18px]">
       채팅
     </div>
-    <div className="flex items-center space-x-2">
+    <div className="flex items-center">
       <input
         type="text"
         value={username}
@@ -109,7 +109,7 @@ const ChatListPage: React.FC = () => {
       />
       <button
         onClick={createChatRoom} // Trigger chat room creation on button click
-        className="text-black px-3 py-1 text-sm line"
+        className="text-black px-2 py-1 text-sm line"
       >
         +
       </button>

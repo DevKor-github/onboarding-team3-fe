@@ -25,9 +25,6 @@ const ChatHeader: React.FC<ChatHeaderProps> = ({ username, profileImageUrl }) =>
           {username}
         </div>
       </div>
-      <div className="w-4 h-4 relative">
-        {/* Placeholder for an icon or additional functionality */}
-      </div>
     </div>
   );
 };
