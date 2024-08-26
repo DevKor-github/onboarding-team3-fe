@@ -37,84 +37,127 @@ const ChatWindowPage: React.FC = () => {
   const { messages: initialMessages, roomNumber, displayName, username } = location.state as { messages: any[], roomNumber: number, displayName: string, username: string  };
 
   const transformMessages = (serverMessages: any[]): ChatMessage[] => {
-    return serverMessages.map(msg => ({
+    return serverMessages
+    .filter(msg => !msg.type || msg.type !== 'new')
+    .map(msg => ({
       text: msg.message,
       isSentByUser: msg.username === username, // 현재 사용자와 메시지 발신자를 비교
       isContinual: false, // 이 부분은 필요에 따라 조정
       timestamp: getCurrentTime(),
-      displayname: msg.username, 
+      displayname: msg.displayname, 
       username: msg.username,
     }));
   };
   
   const [messages, setMessages] = useState<ChatMessage[]>(transformMessages(initialMessages) || []);
   const [newMessage, setNewMessage] = useState('');
-  const [socket, setSocket] = useState<Socket | null>(null);
   const [ws, setWs] = useState<WebSocket | null>(null);
-  const [isSocketOpen, setIsSocketOpen] = useState(false); // WebSocket 연결 상태
-  
+
+
   useEffect(() => {
     // 메시지가 추가될 때마다 스크롤을 맨 아래로 이동
     if (chatContainerRef.current) {
       chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
     }
-  }, [messages]); // messages 배열이 업데이트될 때마다 실행
+  }, [messages]);
+
+  
 
   useEffect(() => {
-    const socket = new WebSocket(`ws://ec2-43-203-30-181.ap-northeast-2.compute.amazonaws.com:8080/api/chat/room/${roomNumber}`);
-    setWs(socket);
+    const ws = new WebSocket(`ws://ec2-43-203-30-181.ap-northeast-2.compute.amazonaws.com:8080/api/chat/room/${roomNumber}`);
+    setWs(ws);
 
-    socket.onopen = () => {
+    ws.onopen = () => {
       console.log('WebSocket connection opened');
-      setIsSocketOpen(true); // 연결 상태를 true로 설정
     };
 
-    socket.onmessage = (event) => {
-      console.log(event.data)
-      try {
-        const message = event.data; // 수신한 메시지를 JSON으로 파싱
 
-        setMessages((prevMessages: any) => [
-          ...prevMessages,
-          {
-            text: message.message,
-            isSentByUser: false,
-            isContinual: false, // 연속 메시지 여부 판단 로직 추가 가능
-            timestamp: getCurrentTime(),
-            displayname: message.displayName, // 보낸 사람의 username 추가
-            username: message.username
-          }
-        ]);
-      } catch (error) {
-        console.error('Failed to parse WebSocket message:', error);
-      }
-    };
-
-    socket.onclose = () => {
+    ws.onclose = () => {
       console.log('WebSocket connection closed');
-      setIsSocketOpen(false); // 연결 상태를 false로 설정
       setTimeout(() => {
         console.log('Attempting to reconnect WebSocket...');
         setWs(new WebSocket(`ws://ec2-43-203-30-181.ap-northeast-2.compute.amazonaws.com:8080/api/chat/room/${roomNumber}`
         ));
       }, 3000); // 3초 후에 재연결 시도
     };
+
+    ws.onmessage = (event) => {
+      console.log(event.data)
+      try {
+        const message = event.data;
+        console.log(message)
+
+        // 메시지 형식에 따라 처리
+        if (message.startsWith('Message(')) {
+          // Message 형식일 경우 처리
+          const parts = message.match(/Message\(type=(.*?), sender=(.*?), roomNumber=(.*?), data=(.*?)\)/);
+          if (parts) {
+            const [, type, sender, room, data] = parts;
+            if (type === 'message') {
+              const parsedData = JSON.parse(data);
+              setMessages((prevMessages) => [
+                ...prevMessages,
+                {
+                  text: parsedData.message || '',
+                  isSentByUser: false,
+                  isContinual: false,
+                  timestamp: getCurrentTime(),
+                  displayname: sender || 'Unknown',
+                  username: sender || 'Unknown',
+                }
+              ]);
+            }
+          }
+        } else {
+          // 다른 형식의 메시지 처리
+          const parsedData = JSON.parse(message);
+          if (parsedData.type !== 'new') {
+            setMessages((prevMessages) => [
+              ...prevMessages,
+              {
+                text: parsedData.message || '',
+                isSentByUser: false,
+                isContinual: false,
+                timestamp: getCurrentTime(),
+                displayname: parsedData.username || 'Unknown',
+                username: parsedData.username || 'Unknown',
+              }
+            ]);
+          }
+        }
+      } catch (error) {
+        console.error('Failed to parse WebSocket message:', error);
+      }
+    };
     
-    socket.onerror = (error) => {
+    ws.onerror = (error) => {
       console.log('WebSocket error:', error);
-      setIsSocketOpen(false);
     };
 
     return () => {
-      if (ws?.readyState === 1) { // <-- This is important
+      if (ws?.readyState === 1) {
           ws.close();
       }
   }
+  // ws.onopen = () => {
+  //   console.log('WebSocket connection opened');
+  // };
+  
+  // ws.onmessage = (event) => {
+  //   console.log('Received message:', event.data);
+  // };
+  
+  // ws.onclose = () => {
+  //   console.log('WebSocket connection closed');
+  // };
+  
+  // ws.onerror = (error) => {
+  //   console.log('WebSocket error:', error);
+  // };
   }, [roomNumber]);
 
   
   const handleSendMessage = () => {
-    console.log(messages)
     if (newMessage.trim() === '') {
       console.log('Message is empty.');
       return; // 메시지가 비어 있으면 아무 작업도 하지 않음
@@ -132,6 +175,7 @@ const ChatWindowPage: React.FC = () => {
 
     ws.send(JSON.stringify(messageData));
 
+
     console.log("Send\n"+ displayName + JSON.stringify(messageData))
   
     setMessages((prevMessages) => [
@@ -148,7 +192,8 @@ const ChatWindowPage: React.FC = () => {
 
     setNewMessage('');
   };
-  
+
+
 
   return (
     <div className="w-[393px] h-[852px] bg-white flex flex-col">
@@ -158,7 +203,8 @@ const ChatWindowPage: React.FC = () => {
       </div>
 
 
-      <ChatHeader username={messages[0]?.username || ''} profileImageUrl="https://via.placeholder.com/32x32" />
+      <ChatHeader username={username || ''} profileImageUrl="https://via.placeholder.com/32x32" />
+      
       <div ref={chatContainerRef} className="flex-grow overflow-auto p-4 bg-white">
         <div className="space-y-2">
           {messages.map((message, index) => (

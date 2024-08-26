@@ -14,7 +14,7 @@ interface MessageOtherProps {
 
 const MessageOther: React.FC<MessageOtherProps> = ({ message, senderName, profileImageUrl, timestamp }) => {
   return (
-    <div className="h-[71px] pb-2.5 flex items-start gap-1">
+    <div className="flex mb-2.5 flex items-start gap-1">
       <div className="w-8 h-8 flex justify-center items-center">
         <img
           className="w-8 h-8 rounded-full border-2 border-[#1e1e1e]/10"
@@ -36,8 +36,7 @@ const MessageOther: React.FC<MessageOtherProps> = ({ message, senderName, profil
         </div>
         <div className="flex justify-end items-center gap-1 pt-1">
           <div className="text-[#666668] text-right text-[12px] font-light font-['Pretendard']">{timestamp}</div>
-          <img src={ReadReceiptIcon} alt="Read Receipt" className="w-4 h-4" />
-        </div>
+          </div>
         </div>
     </div>
     </div>
