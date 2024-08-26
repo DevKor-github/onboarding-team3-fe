@@ -14,7 +14,27 @@ interface Chat {
 }
 
 const ChatListPage: React.FC = () => {
-  const [chats, setChats] = useState<Chat[]>([]); // State to store the fetched chat data
+  // 초기 데이터를 포함하여 useState 설정
+  const [chats, setChats] = useState<Chat[]>([
+    {
+      roomNumber: 1,
+      displayName: '챗봇',
+      username: 'chatbot',
+      profileURL: '', // 프로필 이미지가 없으면 기본 이미지를 사용
+      message: '안녕하세요, 환영합니다!',
+      messageCreatedDate: new Date().toISOString(),
+      
+    },
+    {
+      roomNumber: 2,
+      displayName: '성우현',
+      username: 'woohyun',
+      profileURL: '', // 프로필 이미지가 없으면 기본 이미지를 사용
+      message: '와 되네',
+      messageCreatedDate: new Date().toISOString(),
+    },
+    
+  ]); // 가져온 채팅 데이터를 저장할 상태
   const [username, setUsername] = useState('');
   const navigate = useNavigate();
 
@@ -67,6 +87,8 @@ const ChatListPage: React.FC = () => {
       fetchChatData(); // Fetch the chat data when the component mounts
     }, []);
 
+
+
   return (
     <div className="w-[393px] h-[852px] bg-white flex flex-col">
       <StatusBar />
@@ -98,14 +120,14 @@ const ChatListPage: React.FC = () => {
         {chats.map((chat) => (
           <div
             key={chat.roomNumber}
-            className="h-[62px] px-6 py-[15px] bg-white shadow-inner flex justify-between items-center"
+            className="h-[62px] px-6 py-[15px] bg-white border-b flex justify-between items-center"
             onClick={() => handleSelectChat(chat.roomNumber, chat.username, chat.displayName)}
           >
             <div className="flex items-center gap-1">
               <div className="w-8 h-8 relative">
                 <div className="w-8 h-8 absolute flex justify-center items-center">
                   <img
-                    className="w-8 h-8 rounded-full border-2 border-[#1e1e1e]/10"
+                    className="w-8 h-8 rounded-full"
                     src={chat.profileURL}
                     alt={chat.displayName}
                   />
