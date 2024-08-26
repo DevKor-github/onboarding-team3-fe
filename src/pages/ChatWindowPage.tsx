@@ -22,6 +22,8 @@ interface ChatMessage {
   username:string;
 }
 
+const storedNickname = localStorage.getItem('myname') || 'Unknown';
+
 const getCurrentTime = () => {
   const now = new Date();
   return now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
@@ -80,54 +82,45 @@ const ChatWindowPage: React.FC = () => {
         ));
       }, 3000); // 3초 후에 재연결 시도
     };
-
+    const uniqueMessages = (messages: ChatMessage[], newMessage: ChatMessage) => {
+      // 메시지 ID 또는 타임스탬프 등을 사용하여 중복된 메시지를 필터링합니다.
+      return messages.some(msg => msg.text === newMessage.text && msg.timestamp === newMessage.timestamp)
+        ? messages
+        : [...messages, newMessage];
+    };
+    
+    // WebSocket onmessage에서 메시지 추가
     ws.onmessage = (event) => {
-      console.log(event.data)
+      console.log('Received message:', event.data);
+      if(username == storedNickname){
+        console.log(username)
+      }
+      else{
+        console.log(username, storedNickname)
+      }
       try {
         const message = event.data;
-        console.log(message)
-
-        // 메시지 형식에 따라 처리
-        if (message.startsWith('Message(')) {
-          // Message 형식일 경우 처리
-          const parts = message.match(/Message\(type=(.*?), sender=(.*?), roomNumber=(.*?), data=(.*?)\)/);
-          if (parts) {
-            const [, type, sender, room, data] = parts;
-            if (type === 'message') {
-              const parsedData = JSON.parse(data);
-              setMessages((prevMessages) => [
-                ...prevMessages,
-                {
-                  text: parsedData.message || '',
-                  isSentByUser: false,
-                  isContinual: false,
-                  timestamp: getCurrentTime(),
-                  displayname: sender || 'Unknown',
-                  username: sender || 'Unknown',
-                }
-              ]);
-            }
-          }
+        const match = message.match(/ChatEntity\(id=(\d+), username=([^,]+), message=([^,]+), roomNumber=(\d+), createdAt=([^,]+), updatedAt=([^,]+)\)/);
+    
+        if (match) {
+          const [, id, username, messageText, roomNumber, createdAt, updatedAt] = match;
+          const chatMessage: ChatMessage = {
+            text: messageText || '',
+            isSentByUser: username === storedNickname, // 현재 사용자 이름으로 교체
+            isContinual: false,
+            timestamp: new Date(createdAt).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }),
+            displayname: displayName || 'Unknown',
+            username: username || 'Unknown',
+          };
+    
+          setMessages(prevMessages => uniqueMessages(prevMessages, chatMessage));
         } else {
-          // 다른 형식의 메시지 처리
-          const parsedData = JSON.parse(message);
-          if (parsedData.type !== 'new') {
-            setMessages((prevMessages) => [
-              ...prevMessages,
-              {
-                text: parsedData.message || '',
-                isSentByUser: false,
-                isContinual: false,
-                timestamp: getCurrentTime(),
-                displayname: parsedData.username || 'Unknown',
-                username: parsedData.username || 'Unknown',
-              }
-            ]);
-          }
+          //console.error('Invalid message format:', message);
         }
       } catch (error) {
         console.error('Failed to parse WebSocket message:', error);
       }
+
     };
     
     ws.onerror = (error) => {
@@ -139,21 +132,7 @@ const ChatWindowPage: React.FC = () => {
           ws.close();
       }
   }
-  // ws.onopen = () => {
-  //   console.log('WebSocket connection opened');
-  // };
-  
-  // ws.onmessage = (event) => {
-  //   console.log('Received message:', event.data);
-  // };
-  
-  // ws.onclose = () => {
-  //   console.log('WebSocket connection closed');
-  // };
-  
-  // ws.onerror = (error) => {
-  //   console.log('WebSocket error:', error);
-  // };
+
   }, [roomNumber]);
 
   
@@ -166,15 +145,15 @@ const ChatWindowPage: React.FC = () => {
       console.log('WebSocket is not connected.');
       return; // WebSocket이 연결되어 있지 않으면 아무 작업도 하지 않음
     }
-
+    
+    
     const messageData = {
-      username: username, // 실제 사용자 이름으로 교체
+      username: storedNickname, // 실제 사용자 이름으로 교체
       message: newMessage,
       roomNumber: roomNumber,
     };
 
     ws.send(JSON.stringify(messageData));
-
 
     console.log("Send\n"+ displayName + JSON.stringify(messageData))
   

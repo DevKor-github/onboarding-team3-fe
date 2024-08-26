@@ -21,7 +21,10 @@ const JoinPage: React.FC = () => {
 
     try {
       const response = await join(id, password, username,"https://img.freepik.com/free-vector/flat-design-abstract-background_23-2149116121.jpg" );
-      if (response) {        
+      if (response) {
+                
+        localStorage.setItem('myname', username);
+
         alert('Registration successful! Redirecting to login page...');
         navigate('/'); // Redirect to login page
       }
